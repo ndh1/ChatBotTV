@@ -1,7 +1,10 @@
 require("dotenv").config();
 
+const PAGE_ACCESS_TOKEN = process.env.MY_VERIFY_TOKEN;
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
 let getHomePage = (req, res) => {
-  return res.send("Xin Chao");
+  return res.send("Dit me Duy Link ");
 };
 let postWebhook = (req, res) => {
   let body = req.body;
@@ -14,6 +17,14 @@ let postWebhook = (req, res) => {
     // Returns a '200 OK' response to all requests
     res.status(200).send("EVENT_RECEIVED");
 
+    // Gets the body of the webhook event
+    let webhook_event = entry.messaging[0];
+    console.log(webhook_event);
+
+    // Get the sender PSID
+    let sender_psid = webhook_event.sender.id;
+    console.log('Sender PSID: ' + sender_psid);
+
     // Determine which webhooks were triggered and get sender PSIDs and locale, message content and more.
   } else {
     // Return a '404 Not Found' if event is not from a page subscription
@@ -23,7 +34,7 @@ let postWebhook = (req, res) => {
 let getWebhook = (req, res) => {
 
 
-  let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
   console.log(VERIFY_TOKEN)
   // Parse the query params
   let mode = req.query["hub.mode"];
